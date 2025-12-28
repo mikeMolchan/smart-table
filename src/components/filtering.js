@@ -1,12 +1,11 @@
 import {createComparison, defaultRules} from "../lib/compare.js";
 
 export function initFiltering(elements, indexes) {
-    // Заполняем выпадающие списки опциями
-    Object.keys(indexes)                                    // Получаем ключи из объекта
-      .forEach((elementName) => {                        // Перебираем по именам
-        elements[elementName].append(                    // в каждый элемент добавляем опции
-            ...Object.values(indexes[elementName])        // формируем массив имён, значений опций
-                      .map(name => {                        // используйте name как значение и текстовое содержимое
+    Object.keys(indexes)
+      .forEach((elementName) => {
+        elements[elementName].append(
+            ...Object.values(indexes[elementName])
+                      .map(name => {
                           const option = document.createElement('option');
                           option.value = name;
                           option.textContent = name;
@@ -15,7 +14,6 @@ export function initFiltering(elements, indexes) {
         )
      })
 
-    // Настраиваем компаратор
     const compare = createComparison(defaultRules);
 
     return (data, state, action) => {
@@ -29,7 +27,6 @@ export function initFiltering(elements, indexes) {
         delete filterState.totalFrom;
         delete filterState.totalTo;
 
-        // Отфильтровываем данные используя компаратор
         return data.filter(row => compare(row, filterState));
     }
 }

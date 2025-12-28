@@ -12,14 +12,14 @@ export function initTable(settings, onAction) {
     const root = cloneTemplate(tableTemplate);
 
     // @todo: #1.2 —  вывести дополнительные шаблоны до и после таблицы
-    before.reverse().forEach(subName => {                            // перебираем нужный массив идентификаторов
-        root[subName] = cloneTemplate(subName);            // клонируем и получаем объект, сохраняем в таблице
-        root.container.prepend(root[subName].container);    // добавляем к таблице после (append) или до (prepend)
+    before.reverse().forEach(subName => {
+        root[subName] = cloneTemplate(subName);
+        root.container.prepend(root[subName].container);
     });
 
-    after.forEach(subName => {                            // перебираем нужный массив идентификаторов
-        root[subName] = cloneTemplate(subName);            // клонируем и получаем объект, сохраняем в таблице
-        root.container.append(root[subName].container);    // добавляем к таблице после (append) или до (prepend)
+    after.forEach(subName => {
+        root[subName] = cloneTemplate(subName);
+        root.container.append(root[subName].container);
     });
 
     // @todo: #1.3 —  обработать события и вызвать onAction()
@@ -27,14 +27,12 @@ export function initTable(settings, onAction) {
         onAction();
     });
 
-    // Обработчик события reset
     root.container.addEventListener('reset', () => {
         setTimeout(() => {
             onAction();
         }, 100);
     });
 
-    // Обработчик события submit
     root.container.addEventListener('submit', (e) => {
         e.preventDefault();
         onAction(e.submitter);
