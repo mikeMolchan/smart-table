@@ -12,6 +12,13 @@ export function initFiltering(elements) {
 
     const applyFiltering = (query, _state, _action) => {
         const filter = {};
+
+        if (action && action.name === 'clear') {
+            const input = action.parentElement.querySelector('input');
+            input.value = '';
+            state[action.dataset.field] = '';
+        }
+        
         Object.keys(elements).forEach(key => {
             if (elements[key]) {
                 if (['INPUT', 'SELECT'].includes(elements[key].tagName) && elements[key].value) {
